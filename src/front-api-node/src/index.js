@@ -18,6 +18,12 @@ app.get('/go', function (req, res) {
     res.end(JSON.stringify({ "message": "send request to go service" }));
 });
 
+app.get('/php', function (req, res) {
+    http.get('http://back-api-php')
+    res.setHeader('Content-Type', 'application/json');
+    res.end(JSON.stringify({ "message": "send request to php service" }));
+});
+
 app.listen(3000, function () {
     console.log('Front-Api-Node listening on port 3000!');
 });

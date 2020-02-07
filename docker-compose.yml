@@ -1,5 +1,6 @@
 version: '3'
 services:
+
   front-api-node:
     build: src/front-api-node
     ports:
@@ -7,4 +8,7 @@ services:
 
   back-api-go:
     build: src/back-api-go
+
+  back-api-php:
+    build: src/back-api-php    
     
