@@ -1,0 +1,2 @@
+# foolishness-test
+@docker-compose
