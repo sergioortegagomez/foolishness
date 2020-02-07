@@ -1,0 +1,15 @@
+{
+    "name": "foolishness-api",
+    "version": "0.0.1",
+    "description": "foolishness",
+    "main": "index.js",
+    "author": "Sergio Ortega Gomez",
+    "license": "ISC",
+    "bugs": {
+      "url": "https://github.com/sergioortegagomez/foolishness/issues"
+    },
+    "homepage": "https://github.com/sergioortegagomez/foolishness#readme",
+    "dependencies": {
+      "express": "^4.17.1"
+    }
+  }  
