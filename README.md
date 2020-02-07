@@ -15,3 +15,9 @@ $ docker-compose build
 ```console
 $ docker-compose up
 ```
+
+## Gatling
+
+```console
+$ docker-compose -f docker-compose.gatling.yml up
+```
