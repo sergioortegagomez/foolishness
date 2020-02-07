@@ -12,5 +12,5 @@ app.get('/', function (req, res) {
 });
 
 app.listen(3000, function () {
-    console.log('Api listening on port 3000!');
+    console.log('Front-Api-Node listening on port 3000!');
 });
