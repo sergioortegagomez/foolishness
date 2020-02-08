@@ -5,6 +5,9 @@ services:
     build: src/front-api-node
     ports:
       - 80:3000
+    depends_on:
+      - back-api-go
+      - back-api-php
 
   back-api-go:
     build: src/back-api-go

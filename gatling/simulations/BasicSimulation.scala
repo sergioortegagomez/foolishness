@@ -13,12 +13,9 @@ class BasicSimulation extends Simulation {
   def random() = Random.nextInt(5000)
 
   val scn = scenario("BasicSimulation")
-    .exec(http("main").get("/"))
-    .exec(http("go").get("/go"))
-    .exec(http("php").get("/php"))
-    //.exec(http("Should be ok").get("/200"))
-    //.exec(http("Gateway timeout").get("/504"))
-    //.exec(http("With random response time").get(s"/200?sleep=${random()}"))
+    .exec(http("/").get("/"))
+    .exec(http("/go").get("/go"))
+    .exec(http("/php").get("/php"))
 
   setUp(
     scn.inject(constantUsersPerSec(1000) during(10 seconds))

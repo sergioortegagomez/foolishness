@@ -1,5 +1,5 @@
 var express = require('express');
-var http = require('http');
+var rp = require("request-promise");
 var app = express();
 
 app.use(function (req, res, next) {
@@ -7,21 +7,33 @@ app.use(function (req, res, next) {
     next();
 });
 
-app.get('/', function (req, res) {    
+app.get('/', function (req, res) {
     res.setHeader('Content-Type', 'application/json');
-    res.end(JSON.stringify({ "message": "hello world" }));
+    res.end(JSON.stringify({ "message": "hello world from node" }));
 });
 
 app.get('/go', function (req, res) {
-    http.get('http://back-api-go:3000')
     res.setHeader('Content-Type', 'application/json');
-    res.end(JSON.stringify({ "message": "send request to go service" }));
+    rp('http://back-api-go:3000')
+        .then(function (json) {
+            res.end(JSON.stringify(json));
+        })
+        .catch(function (err) {
+            console.log(err)
+            res.end(JSON.stringify({"error":{"message" : "back-api-go not response"}}));
+        });
 });
 
 app.get('/php', function (req, res) {
-    http.get('http://back-api-php')
     res.setHeader('Content-Type', 'application/json');
-    res.end(JSON.stringify({ "message": "send request to php service" }));
+    rp('http://back-api-php/index.php')
+        .then(function (json) {
+            res.end(JSON.stringify(json));
+        })
+        .catch(function (err) {
+            console.log(err)
+            res.end(JSON.stringify({"error":{"message" : "back-api-php not response"}}));
+        });
 });
 
 app.listen(3000, function () {
