@@ -36,6 +36,18 @@ app.get('/php', function (req, res) {
         });
 });
 
+app.get('/java', function (req, res) {
+    res.setHeader('Content-Type', 'application/json');
+    rp('http://back-api-java:8080')
+        .then(function (json) {
+            res.end(JSON.stringify(json));
+        })
+        .catch(function (err) {
+            console.log(err)
+            res.end(JSON.stringify({"error":{"message" : "back-api-java not response"}}));
+        });
+});
+
 app.listen(3000, function () {
     console.log('Front-Api-Node listening on port 3000!');
 });

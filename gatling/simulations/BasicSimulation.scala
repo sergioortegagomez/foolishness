@@ -10,15 +10,14 @@ class BasicSimulation extends Simulation {
 
   val httpProtocol = http.baseUrl("http://front-api-node:3000")
 
-  def random() = Random.nextInt(5000)
-
   val scn = scenario("BasicSimulation")
     .exec(http("/").get("/"))
     .exec(http("/go").get("/go"))
     .exec(http("/php").get("/php"))
+    .exec(http("/java").get("/java"))
 
   setUp(
-    scn.inject(constantUsersPerSec(1000) during(10 seconds))
+    scn.inject(constantUsersPerSec(100) during(10 seconds))
   ).protocols(httpProtocol)
 
 }

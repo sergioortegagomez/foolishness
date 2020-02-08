@@ -11,7 +11,15 @@ services:
 
   back-api-go:
     build: src/back-api-go
+    #ports:
+    #  - 1100:3000
 
   back-api-php:
-    build: src/back-api-php    
-    
+    build: src/back-api-php
+    #ports:
+    #  - 1101:80
+  
+  back-api-java:
+    build: src/back-api-java
+    #ports:
+    #  - 1102:8080
