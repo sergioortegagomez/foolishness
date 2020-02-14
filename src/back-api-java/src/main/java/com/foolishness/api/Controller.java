@@ -8,6 +8,7 @@ public class Controller {
 
     @RequestMapping("/")
     String hello() {
+        System.out.println("/");
         return "{\"message\":\"hello world from java\"}";
     }
 
