@@ -1,9 +1,9 @@
 version: '3'
 services:
-
-  gatling-runner:
+    
+  gatling-runner-main:
     image: denvazh/gatling:3.2.1
-    command: [-s, simulations.BasicSimulation]
+    command: "-s simulations.BasicSimulation"
     volumes:
     - ./gatling/simulations:/opt/gatling/user-files/simulations
     #- ./gatling/results:/opt/gatling/results
