@@ -8,6 +8,7 @@ services:
     depends_on:
       - back-api-go
       - back-api-php
+      - back-api-java
 
   back-api-go:
     build: src/back-api-go
