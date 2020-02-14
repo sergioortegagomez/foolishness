@@ -3,7 +3,6 @@ package simulations
 import io.gatling.core.Predef._
 import io.gatling.http.Predef._
 
-import scala.util.Random
 import scala.concurrent.duration._
 
 class BasicSimulation extends Simulation {
@@ -17,7 +16,7 @@ class BasicSimulation extends Simulation {
     .exec(http("/java").get("/java"))
 
   setUp(
-    scn.inject(constantUsersPerSec(100) during(10 seconds))
+    scn.inject(constantUsersPerSec(100) during(60 seconds))
   ).protocols(httpProtocol)
 
 }
