@@ -15,13 +15,13 @@ function start() {
 }
 
 function destroy() {
-    docker-compose -f docker-compose.gatling.yml rm --stop --force gatling-runner-main
+    docker-compose -f docker-compose.test.yml rm --stop --force gatling-runner-main cucumber
     docker-compose down
 }
 
 function status() {
     docker-compose ps
-    docker-compose -f docker-compose.gatling.yml ps    
+    docker-compose -f docker-compose.test.yml ps    
 }
 
 function test() {    
