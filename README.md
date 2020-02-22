@@ -2,21 +2,37 @@
 
 ## How to run this project?
 
-Two steps:
+Start the platform:
 
-### 1.- Build
+```console
+$ bin/platformcontrol.sh up
+```
+
+And enter to your dev virtual machine
+
+```console
+$ bin/platformcontrol.sh ssh
+```
+
+Move to workspace by default
+
+```console
+$ cd /vagrant
+```
+
+### Build your project
 
 ```console
 $ bin/devcontrol.sh build
 ```
 
-### 2.- Up
+### Up up up! :)
 
 ```console
 $ bin/devcontrol.sh start
 ```
 
-## Gatling
+## Gatling test
 
 ```console
 $ docker-compose -f docker-compose.gatling.yml up

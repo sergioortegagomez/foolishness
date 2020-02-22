@@ -11,8 +11,7 @@ function build() {
 }
 
 function start() {
-    docker-compose up -d --remove-orphans    
-    docker-compose logs -f
+    docker-compose up -d --remove-orphans
 }
 
 function destroy() {
@@ -29,23 +28,16 @@ function test() {
     docker-compose -f docker-compose.gatling.yml up gatling-runner-main
 }
 
+function logs() {
+    docker-compose logs -f
+}
+
 case $1 in
-    start) 
-        start
-    ;;
-    destroy)
-        destroy
-    ;;
-    build)
-        build
-    ;;
-    test)
-        test
-    ;;
-    status)
-        status
-    ;;
-    *)
-        usage
-    ;;
+    start) start ;;
+    destroy) destroy ;;
+    build) build ;;
+    test) test ;;
+    status) status ;;
+    logs) logs ;;
+    *) usage ;;
 esac
