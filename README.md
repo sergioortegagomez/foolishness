@@ -2,6 +2,12 @@
 
 # foolishness
 
+## Requirements
+
+- [Linux Ubuntu 18.04](https://ubuntu.com/)
+- [Vagrant 2.0.2](https://www.vagrantup.com/)
+- [VirtualBox 5.2.32](https://www.virtualbox.org/)
+
 ## How to run this project?
 
 Start the platform:
