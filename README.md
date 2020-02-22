@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/sergioortegagomez/foolishness.svg?branch=master)](https://travis-ci.org/sergioortegagomez/foolishness)
+
 # foolishness
 
 ## How to run this project?
