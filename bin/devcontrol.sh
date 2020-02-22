@@ -1,11 +1,13 @@
-#!/bin/bash
+#!/bin/bash 
 
 function usage() {
     echo -e "usage: bin/devcontrol.sh [start|destroy|build|test|status]"
 }
 
 function build() {
-    docker-compose build
+    for d in back-api-go back-api-php back-api-java front-api-node web; do
+        src/$d/build.sh
+    done
 }
 
 function start() {
@@ -14,7 +16,7 @@ function start() {
 }
 
 function destroy() {
-    docker-compose -f docker-compose.gatling.yml down --remove-orphans    
+    docker-compose -f docker-compose.gatling.yml rm --stop --force gatling-runner-main
     docker-compose down
 }
 
