@@ -1,0 +1,10 @@
+language: bash
+
+sudo: required
+services:
+  - docker
+
+script:  
+  - bin/devcontrol.sh build
+  - bin/devcontrol.sh start
+  - bin/devcontrol.sh test cucumber-runner-main
