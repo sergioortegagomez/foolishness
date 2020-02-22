@@ -1,3 +1,3 @@
-FROM richarvey/nginx-php-fpm:latest
+FROM athimel/nginx-php-mongo:latest
 
 ADD src/ /var/www/html/
