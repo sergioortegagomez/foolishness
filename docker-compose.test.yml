@@ -1,0 +1,14 @@
+version: '2'
+services:
+    
+  gatling-runner-main:
+    image: denvazh/gatling:3.2.1
+    command: "-s simulations.BasicSimulation"
+    volumes:
+      - ./test/gatling/simulations:/opt/gatling/user-files/simulations
+      - ./test/gatling/results:/opt/gatling/results
+
+  cucumber-runner-main:
+    image: sergioortegagomez/docker-ubuntu-cucumber
+    volumes:
+      - ./test/cucumber:/opt/cucumber

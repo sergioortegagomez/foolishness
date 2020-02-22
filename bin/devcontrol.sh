@@ -24,8 +24,8 @@ function status() {
     docker-compose -f docker-compose.gatling.yml ps    
 }
 
-function test() {
-    docker-compose -f docker-compose.gatling.yml up gatling-runner-main
+function test() {    
+    docker-compose -f docker-compose.test.yml up $2    
 }
 
 function logs() {
@@ -36,7 +36,7 @@ case $1 in
     start) start ;;
     destroy) destroy ;;
     build) build ;;
-    test) test ;;
+    test) test $@ ;;
     status) status ;;
     logs) logs ;;
     *) usage ;;
