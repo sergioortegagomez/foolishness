@@ -6,4 +6,4 @@ services:
     command: "-s simulations.BasicSimulation"
     volumes:
     - ./gatling/simulations:/opt/gatling/user-files/simulations
-    #- ./gatling/results:/opt/gatling/results
+    - ./gatling/results:/opt/gatling/results

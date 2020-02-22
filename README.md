@@ -7,13 +7,13 @@ Two steps:
 ### 1.- Build
 
 ```console
-$ docker-compose build
+$ bin/devcontrol.sh build
 ```
 
 ### 2.- Up
 
 ```console
-$ docker-compose up
+$ bin/devcontrol.sh start
 ```
 
 ## Gatling
