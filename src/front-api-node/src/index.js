@@ -2,12 +2,13 @@ var express = require('express');
 var rp = require("request-promise");
 var app = express();
 
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 app.use((req, res, next) => {
     console.log('Request URL:', req.method, req.originalUrl);
     res.header('Access-Control-Allow-Origin', '*');
 
     // authorized headers for preflight requests
-    // https://developer.mozilla.org/en-US/docs/Glossary/preflight_request
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
     next();
 
@@ -59,9 +60,9 @@ app.get('/java', function (req, res) {
         });
 });
 
-app.get('/randomnumbers/list', function (req, res) {
+app.get('/vote/list', function (req, res) {
     res.setHeader('Content-Type', 'application/json');
-    rp('http://back-api-php/randomnumberslist.php', req.body)
+    rp('http://back-api-php/votelist.php', req.body)
         .then(function (json) {
             res.end(json);
         })
@@ -71,13 +72,28 @@ app.get('/randomnumbers/list', function (req, res) {
         });
 });
 
-app.post('/randomnumbers/create', function (req, res) {
+app.get('/vote/count', function (req, res) {
+    res.setHeader('Content-Type', 'application/json');
+    rp('http://back-api-php/votecount.php', req.body)
+        .then(function (json) {
+            res.end(json);
+        })
+        .catch(function (err) {
+            console.log(err)
+            res.end(JSON.stringify({"error":{"message" : "back-api-php not response"}}));
+        });
+});
+
+app.post('/vote/create', function (req, res) {
     res.setHeader('Content-Type', 'application/json');
     var options = {
         method: 'POST',
-        uri: 'http://back-api-go/randomnumbercreate'
+        uri: 'http://back-api-go/votecreate',
+        form: {
+            vote: req.body.vote
+        }
     }
-    rp(options, req.body)
+    rp(options)
         .then(function (json) {
             res.end(JSON.stringify(json));
         })
@@ -87,9 +103,9 @@ app.post('/randomnumbers/create', function (req, res) {
         });
 });
 
-app.post('/randomnumbers/remove', function (req, res) {
+app.post('/vote/remove', function (req, res) {
     res.setHeader('Content-Type', 'application/json');
-    rp('http://back-api-java/randomnumberremove', req.body)
+    rp('http://back-api-java/voteremove', req.body)
         .then(function (json) {
             res.end(JSON.stringify(json));
         })

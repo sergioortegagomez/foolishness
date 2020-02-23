@@ -8,3 +8,4 @@ script:
   - bin/devcontrol.sh build
   - bin/devcontrol.sh start
   - bin/devcontrol.sh test cucumber-runner-main
+  - bin/devcontrol.sh destroy

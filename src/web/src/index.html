@@ -12,25 +12,23 @@
     </head>
     <body>
         <div class="container">
+            <div class="row"><h1>Poll!</h1></div>
             <div class="row"><hr></div>
-            <div class="row">
-                <div class="col-sm">
-                    <button type="button" class="btn btn-primary" id="buttonList">List</button>
-                </div>
-                <div class="col-sm">                    
-                    <button type="button" class="btn btn-primary" id="buttonCreate">Create</button>
-                </div>
-                <div class="col-sm">
-                    <button type="button" class="btn btn-primary" id="buttonRemove">Remove</button>
-                </div>
+            <div class="row ">
+                <fieldset>
+                    <h4>Do you like this a lot?</h4>                    
+                    <button type="button" class="btn btn-primary" id="buttonYes">Yes</button>
+                    <button type="button" class="btn btn-primary" id="buttonNo">No</button>
+                    <button type="button" class="btn btn-primary" id="buttonMaybe">May be</button>
+                </fieldset>
             </div>
             <div class="row"><hr></div>
             <div class="row">
-                <table class="table" id="tableNumbers">
+                <table class="table table-striped" id="tableVotes">
                     <thead>
                       <tr>
                         <th scope="col">#</th>
-                        <th scope="col">Radom Number</th>
+                        <th scope="col">Vote</th>
                         <th scope="col">Created At</th>
                       </tr>
                     </thead>
@@ -39,6 +37,18 @@
                     </tbody>
                 </table>
             </div>
+            <div class="row"><hr></div>
+            <div class="row">
+                <div class="col-sm-3">Total votes: <span id="total">0</span></div>
+                <div class="col-sm-3">Yes count: <span id="yesCount">0</span></div>
+                <div class="col-sm-3">No count: <span id="noCount">0</span></div>
+                <div class="col-sm-3">May be count: <span id="maybeCount">0</span></div>
+            </div>
+            <div class="row">
+                <div class="col-sm">
+                    <button type="button" class="btn btn-danger" id="buttonRemove">Clear</button>
+                </div>
+            </div>            
         </div>
     </body>
 </html>

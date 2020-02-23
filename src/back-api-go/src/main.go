@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"io/ioutil"
 	"log"
 	"math/rand"
 	"net/http"
@@ -13,12 +14,12 @@ import (
 	"gopkg.in/mgo.v2"
 )
 
-type randomNumberStruct struct {
-	Number    int
+type voteStruct struct {
+	Vote      string
 	CreatedAt time.Time
 }
 
-var randomNumbers *mgo.Collection
+var votes *mgo.Collection
 
 func responseError(w http.ResponseWriter, message string, code int) {
 	w.Header().Set("Content-Type", "application/json")
@@ -32,21 +33,28 @@ func responseJSON(w http.ResponseWriter, data interface{}) {
 	json.NewEncoder(w).Encode(data)
 }
 
-func randomNumberCreate(w http.ResponseWriter, r *http.Request) {
-	log.Println("/randomnumbercreate")
-	randomNumber := &randomNumberStruct{}
-	randomNumber.Number = rand.Intn(999999999)
-	randomNumber.CreatedAt = time.Now().UTC()
-
-	if err := randomNumbers.Insert(randomNumber); err != nil {
-		responseError(w, err.Error(), http.StatusInternalServerError)
-		log.Println("Number not created!!")
+func voteCreate(w http.ResponseWriter, r *http.Request) {
+	log.Println("/votecreate")
+	b, err := ioutil.ReadAll(r.Body)
+	defer r.Body.Close()
+	if err != nil {
+		http.Error(w, err.Error(), 500)
 		return
 	}
 
-	log.Println("Number created ", randomNumber.Number)
+	vote := &voteStruct{}
+	vote.Vote = string(b[5:])
+	vote.CreatedAt = time.Now().UTC()
 
-	responseJSON(w, randomNumber)
+	if err := votes.Insert(vote); err != nil {
+		responseError(w, err.Error(), http.StatusInternalServerError)
+		log.Println("Vote not created!!")
+		return
+	}
+
+	log.Println("Vote", vote.Vote, "has been created")
+
+	responseJSON(w, vote)
 }
 
 func status(w http.ResponseWriter, r *http.Request) {
@@ -67,11 +75,11 @@ func main() {
 	}
 	defer session.Close()
 	session.SetMode(mgo.Monotonic, true)
-	randomNumbers = session.DB("foolishness").C("randomNumbers")
+	votes = session.DB("foolishness").C("votes")
 
 	// Set up routes
 	r := mux.NewRouter()
-	r.HandleFunc("/randomnumbercreate", randomNumberCreate).Methods("POST")
+	r.HandleFunc("/votecreate", voteCreate).Methods("POST")
 	r.HandleFunc("/", status).Methods("GET")
 
 	http.ListenAndServe(":80", cors.AllowAll().Handler(r))

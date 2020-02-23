@@ -1,6 +1,17 @@
 $(function() {
+
+    function voteCount() {
+        $.get("http://localhost:3000/vote/count", function(data) {
+            console.log(data);
+            $("#total").html(data.total)
+            $("#yesCount").html(data.yes)
+            $("#noCount").html(data.no)
+            $("#maybeCount").html(data.maybe)
+        });
+    }
+
     function listTable() {
-        $.get("http://localhost:3000/randomnumbers/list", function(data) {
+        $.get("http://localhost:3000/vote/list", function(data) {
             var tbl_body = "";
             var odd_even = false;
             $.each(data, function(data) {
@@ -8,24 +19,35 @@ $(function() {
                 $.each(this, function(k , v) {
                     tbl_row += "<td>"+v+"</td>";
                 });
-                tbl_body += "<tr class=\""+( odd_even ? "odd" : "even")+"\">"+tbl_row+"</tr>";
+                tbl_body += "<tr scope=\"row\">"+tbl_row+"</tr>";
                 odd_even = !odd_even;               
             });
-            $("#tableNumbers tbody").html(tbl_body);
+            $("#tableVotes tbody").html(tbl_body);
         });
     }
 
-    $("#buttonList").click(function() { listTable() });
-    $("#buttonCreate").click(function() {
-        $.post("http://localhost:3000/randomnumbers/create", function(data) {
-            console.log(data)
-            alert(data);
+    function refreshData() {
+        listTable();
+        voteCount();
+    }
+
+    function sendVote(vote) {
+        $.post("http://localhost:3000/vote/create", { "vote" : vote }, function(data) {
+            console.log(data);
+            refreshData();
         });
-    });
+    }
+
+    refreshData();
+
+    $("#buttonYes").click(function() { sendVote("Yes"); });
+    $("#buttonNo").click(function() { sendVote("No"); });
+    $("#buttonMaybe").click(function() { sendVote("Maybe"); });
+    
     $("#buttonRemove").click(function() {
-        $.post("http://localhost:3000/randomnumbers/remove", function(data) {
+        $.post("http://localhost:3000/vote/remove", function(data) {
             console.log(data)
-            listTable()
+            refreshData()
         });
     });
 });

@@ -16,11 +16,11 @@ public class Controller {
         return "{\"message\":\"hello world from java\"}";
     }
 
-    @RequestMapping("/randomnumberremove")
-    String ramdomNumberRemove() {
-        System.out.println("/randomnumberremove");
+    @RequestMapping("/voteremove")
+    String voteRemove() {
+        System.out.println("/voteremove");
         MongoOperations mongoOps = new MongoTemplate(new SimpleMongoDbFactory(new Mongo("mongodb"), "foolishness"));
-        mongoOps.dropCollection("randomNumbers");
+        mongoOps.dropCollection("votes");
         return "{\"message\":\"ok\"}";
     }
 }

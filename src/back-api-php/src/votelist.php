@@ -1,19 +1,20 @@
 <?php
 header("Content-Type: application/json; charset=UTF-8");
-error_log("/randomnumberslist.php");
+error_log("/votelist.php");
 
 try {
     $mongodb = new Mongo("mongodb://mongodb:27017");
-    $randomNumbersCollection = $mongodb->foolishness->randomNumbers;
+    $votesCollection = $mongodb->foolishness->votes;
 
-    if ($randomNumbersCollection->count() == 0) {
+    if ($votesCollection->count() == 0) {
         echo "{}";
     } else {
-        $result=array();
-        foreach ($randomNumbersCollection->find() as $doc) {
+        $result = array();
+        $cursor = $votesCollection->find()->limit(10);
+        foreach ($cursor as $doc) {
             $result[] = array(
                 'id' => $doc['_id']->{'$id'},
-                'number' => $doc['number'],
+                'vote' => $doc['vote'],
                 'createdat' => date('d-m-Y H:i:s', $doc['createdat']->sec)
             );
         }
