@@ -15,7 +15,7 @@ function start() {
 }
 
 function destroy() {
-    docker-compose -f docker-compose.test.yml rm --stop --force gatling-runner-main cucumber
+    docker-compose -f docker-compose.test.yml rm --stop --force gatling-runner-main cucumber-runner-main
     docker-compose down
 }
 
