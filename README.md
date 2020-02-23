@@ -40,8 +40,16 @@ $ bin/devcontrol.sh build
 $ bin/devcontrol.sh start
 ```
 
+# Test
+
 ## Gatling test
 
 ```console
-$ docker-compose -f docker-compose.gatling.yml up
+$ bin/devcontrol.sh test gatling-runner-main
+```
+
+## Cucumber test
+
+```console
+$ bin/devcontrol.sh test cucumber-runner-main
 ```

@@ -14,8 +14,10 @@ class BasicSimulation extends Simulation {
     .exec(http("/go").get("/go"))
     .exec(http("/php").get("/php"))
     .exec(http("/java").get("/java"))
-    .exec(http("/randomnumbers/list").get("/randomnumbers/list"))
-    .exec(http("/randomnumbers/create").post("/randomnumbers/create"))
+    .exec(http("/vote/list").get("/vote/list"))
+    .exec(http("/vote/create").post("/vote/create").body(StringBody("vote=Yes")))
+    .exec(http("/vote/create").post("/vote/create").body(StringBody("vote=No")))
+    .exec(http("/vote/create").post("/vote/create").body(StringBody("vote=Maybe")))
   setUp(
     scn.inject(
       nothingFor(4 seconds),

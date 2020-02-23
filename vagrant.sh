@@ -28,9 +28,9 @@ EOF
     systemctl restart docker
 }
 
-# Kube* Install
+# kubectl Install
 function kubeInstall() {
-    printTitle "Kube Install"
+    printTitle "kubectl Install"
     curl -fsSL https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
     sudo add-apt-repository "deb https://apt.kubernetes.io/ kubernetes-xenial main"
     sudo apt-get update

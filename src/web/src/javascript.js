@@ -1,7 +1,7 @@
 $(function() {
 
     function voteCount() {
-        $.get("http://localhost:3000/vote/count", function(data) {
+        $.get("http://front-api-node:3000/vote/count", function(data) {
             console.log(data);
             $("#total").html(data.total)
             $("#yesCount").html(data.yes)
@@ -11,7 +11,7 @@ $(function() {
     }
 
     function listTable() {
-        $.get("http://localhost:3000/vote/list", function(data) {
+        $.get("http://front-api-node:3000/vote/list", function(data) {
             var tbl_body = "";
             var odd_even = false;
             $.each(data, function(data) {
@@ -32,7 +32,7 @@ $(function() {
     }
 
     function sendVote(vote) {
-        $.post("http://localhost:3000/vote/create", { "vote" : vote }, function(data) {
+        $.post("http://front-api-node:3000/vote/create", { "vote" : vote }, function(data) {
             console.log(data);
             refreshData();
         });
@@ -45,7 +45,7 @@ $(function() {
     $("#buttonMaybe").click(function() { sendVote("Maybe"); });
     
     $("#buttonRemove").click(function() {
-        $.post("http://localhost:3000/vote/remove", function(data) {
+        $.post("http://front-api-node:3000/vote/remove", function(data) {
             console.log(data)
             refreshData()
         });

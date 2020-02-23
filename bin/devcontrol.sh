@@ -24,7 +24,8 @@ function status() {
     docker-compose -f docker-compose.test.yml ps    
 }
 
-function test() {    
+function test() {
+    docker system prune -f > /dev/null
     docker-compose -f docker-compose.test.yml up $2    
 }
 
