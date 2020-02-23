@@ -1,10 +1,19 @@
 language: bash
 
+dist: trusty
+
+addons:
+  sonarcloud:
+    organization: "sergioortegagomez"
+    token:
+      secure: "ibNa+1QtRqr1HMSogqQPOfbkMJj2swzS76RbgMHo0us/AFuh+DUZx3PaYbUKXaOiyVA/A5hF+xsvhxUoqBRWwZbn0xh31NbIiA08kDtbMfT/5lj6vxBeBxaY7WHfpzA6tAhC/vWOj3vBYVVTp082LaOZqjXz9DAg1+81W/FhS/v+O0iUkBzt6dI1p+2DM6LRL3/+cbkPzerNV/N2kgsjYHzXDQDlD0R1SfLZ+ko2JThgPpzcfBGJDpWyWn6IVKcGApwf1voKsqZYR9TA8NeqWW/ZN+I0qvsxu/c1CXIdfYEBwVNwnN0zW8TnhfOslG7atW3naemYRvVt3mMS79RHpHJU7E8RUluhZIEdtx4/a9eBIHq09dPYsbB1mLnGjJLlbkifAuzOkSkpYfYWOasXmeKZX3cuvzbacfPxjhyVbXpI/vu3a/WoJSqGCxzTi5+0wttvPyA1Q35s3N1AzFXwtIxYmC/18/b2IeHh49P7ufLG1le0JwP2SgubBtvxficjSzTpxIgDCivJ+j9acigJrgl1I3uQzpAmPcbm6TnyaVw0+00vu7C+ebMHl/M1WFnZlxiXaBvmCDNeybAjzAJxreWeaX5fDMwaMKhRM9DaywAZ0Q+LOCZkcbm7+OmU5A5fZ+7uMmtwhpTkODLgtzJhkdvcOkxInSwSxiIKAn1mbVA="
+
 sudo: required
 services:
   - docker
 
-script:  
+script:
+  - sonar-scanner
   - bin/devcontrol.sh build
   - bin/devcontrol.sh start
   - bin/devcontrol.sh test cucumber-runner-main
