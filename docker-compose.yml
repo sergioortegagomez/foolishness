@@ -3,6 +3,7 @@ services:
 
   web:
     image: docker-registry.local/foolishness/web:latest
+    restart: always
     ports: 
       - 80:80
     depends_on: 
@@ -10,6 +11,7 @@ services:
 
   front-api-node:
     image: docker-registry.local/foolishness/front-api-node:latest
+    restart: always
     ports:
       - 3000:3000
     depends_on:
@@ -19,24 +21,29 @@ services:
 
   back-api-go:
     image: docker-registry.local/foolishness/back-api-go:latest
+    restart: always
     depends_on:
       - mongodb
     
   back-api-php:
     image: docker-registry.local/foolishness/back-api-php:latest
+    restart: always
     depends_on:
       - mongodb
     
   back-api-java:
     image: docker-registry.local/foolishness/back-api-java:latest
+    restart: always
     depends_on:
       - mongodb
     
   mongodb:
     image: mongo:latest
+    restart: always
 
   desktop:
     image: sergioortegagomez/docker-ubuntu-cucumber
+    restart: always
     ports:
       - 3389:3389
     environment:
