@@ -1,5 +1,7 @@
 [![Build Status](https://travis-ci.org/sergioortegagomez/foolishness.svg?branch=master)](https://travis-ci.org/sergioortegagomez/foolishness)
 
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=sergioortegagomez_foolishness&metric=alert_status)](https://sonarcloud.io/dashboard?id=sergioortegagomez_foolishness)
+
 # foolishness
 
 ## Requirements

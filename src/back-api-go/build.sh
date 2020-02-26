@@ -2,4 +2,4 @@
 
 cd "$(dirname $0)"
 
-docker build --tag foolishness/back-api-go:latest .
+docker build --tag docker-registry.local/foolishness/back-api-go:latest .

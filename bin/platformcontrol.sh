@@ -7,7 +7,7 @@ function usage() {
 case $1 in
     up) vagrant up ;;
     destroy) vagrant destroy -f ;;
-    ssh) vagrant ssh foolishness-vm ;;
+    ssh) vagrant ssh foolishness-dev ;;
     status) vagrant status ;;
     halt) vagrant halt ;;
     *) usage ;;

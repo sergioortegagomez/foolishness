@@ -2,14 +2,14 @@ version: '2'
 services:
 
   web:
-    image: foolishness/web:latest
+    image: docker-registry.local/foolishness/web:latest
     ports: 
       - 80:80
     depends_on: 
       - front-api-node
 
   front-api-node:
-    image: foolishness/front-api-node:latest
+    image: docker-registry.local/foolishness/front-api-node:latest
     ports:
       - 3000:3000
     depends_on:
@@ -18,17 +18,17 @@ services:
       - back-api-java
 
   back-api-go:
-    image: foolishness/back-api-go:latest
+    image: docker-registry.local/foolishness/back-api-go:latest
     depends_on:
       - mongodb
     
   back-api-php:
-    image: foolishness/back-api-php:latest
+    image: docker-registry.local/foolishness/back-api-php:latest
     depends_on:
       - mongodb
     
   back-api-java:
-    image: foolishness/back-api-java:latest
+    image: docker-registry.local/foolishness/back-api-java:latest
     depends_on:
       - mongodb
     

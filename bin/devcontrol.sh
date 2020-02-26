@@ -1,7 +1,7 @@
 #!/bin/bash 
 
 function usage() {
-    echo -e "usage: bin/devcontrol.sh [start|destroy|build|test|status]"
+    echo -e "usage: bin/devcontrol.sh [start|destroy|build|test|status|docker push]"
 }
 
 function build() {
@@ -33,6 +33,16 @@ function logs() {
     docker-compose logs -f
 }
 
+function execDocker() {
+    case $2 in
+        push)
+            for image in web front-api-node back-api-php back-api-go back-api-java; do
+                docker push docker-registry.local/foolishness/$image:latest
+            done
+        ;;
+    esac
+}
+
 case $1 in
     start) start ;;
     destroy) destroy ;;
@@ -40,5 +50,6 @@ case $1 in
     test) test $@ ;;
     status) status ;;
     logs) logs ;;
+    docker) execDocker $@ ;;
     *) usage ;;
 esac
