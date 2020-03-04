@@ -6,14 +6,12 @@ services:
     restart: always
     ports: 
       - 80:80
-    depends_on: 
+    depends_on:
       - front-api-node
 
   front-api-node:
     image: docker-registry.local/foolishness/front-api-node:latest
     restart: always
-    ports:
-      - 3000:3000
     depends_on:
       - back-api-go
       - back-api-php
@@ -40,6 +38,8 @@ services:
   mongodb:
     image: mongo:latest
     restart: always
+    ports:
+      - 27017:27017
 
   desktop:
     image: sergioortegagomez/docker-ubuntu-cucumber
