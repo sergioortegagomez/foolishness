@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    foolishness.service: web
+  name: web
+  namespace: foolishness
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      foolishness.service: web
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        foolishness.service: web
+    spec:
+      containers:
+      - image: docker-registry.local/foolishness/web:latest
+        imagePullPolicy: ""
+        name: web
+        ports:
+        - containerPort: 80
+        resources: {}
+      restartPolicy: Always
+      serviceAccountName: ""
+      volumes: null
+status: {}

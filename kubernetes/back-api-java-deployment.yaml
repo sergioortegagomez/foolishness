@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    foolishness.service: back-api-java
+  name: back-api-java
+  namespace: foolishness
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      foolishness.service: back-api-java
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        foolishness.service: back-api-java
+    spec:
+      containers:
+      - image: docker-registry.local/foolishness/back-api-java:latest
+        imagePullPolicy: ""
+        name: back-api-java
+        resources: {}
+      restartPolicy: Always
+      serviceAccountName: ""  
+status: {}

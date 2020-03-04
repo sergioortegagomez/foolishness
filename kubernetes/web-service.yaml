@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    foolishness.service: web
+  name: web
+  namespace: foolishness
+spec:
+  ports:
+  - name: "80"
+    port: 80
+    targetPort: 80
+  type: LoadBalancer
+  selector:
+    foolishness.service: web
+status:
+  loadBalancer: {}

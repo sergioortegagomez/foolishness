@@ -1,7 +1,19 @@
 #!/bin/bash 
 
 function usage() {
-    echo -e "usage: bin/devcontrol.sh [start|destroy|build|test|status|docker push]"
+    echo -e ""
+    echo -e "Usage: "
+    echo -e "  bin/devcontrol.sh [command]"
+    echo -e ""
+    echo -e "Available Commands:"
+    echo -e "  - start       dev env up"
+    echo -e "  - destroy     dev env down"
+    echo -e "  - build       build all docker images"
+    echo -e "  - test        launch your cucumber/gatling test"
+    echo -e "  - status      show status info"
+    echo -e "  - docker push push your docker images"
+    echo -e "  - kubernetes  launch to kubernetes cluster"
+    echo -e ""
 }
 
 function build() {
@@ -43,6 +55,29 @@ function execDocker() {
     esac
 }
 
+function execKubernetes() {
+    [ ! -f "/home/vagrant/.kube/config" ] && sshpass -p "vagrant" scp vagrant@192.168.50.10:/home/vagrant/.kube/config /home/vagrant/.kube/config
+    cd kubernetes
+
+    case $2 in
+        apply|delete)
+            kubectl $2 -f namespace.yaml
+            kubectl $2 -f mongodb-service.yaml
+            for app in back-api-go back-api-java back-api-php front-api-node web; do
+                kubectl $2 -f $app-service.yaml
+                kubectl $2 -f $app-deployment.yaml
+            done
+        ;;
+        *)
+            echo -e ""
+            echo -e "Usage: "
+            echo -e "  bin/devcontrol.sh kubernetes [apply|delete]"
+            echo -e ""
+        ;;
+    esac
+    cd ..
+}
+
 case $1 in
     start) start ;;
     destroy) destroy ;;
@@ -51,5 +86,6 @@ case $1 in
     status) status ;;
     logs) logs ;;
     docker) execDocker $@ ;;
+    kubernetes) execKubernetes $@ ;;
     *) usage ;;
 esac

@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    foolishness.service: back-api-go
+  name: back-api-go
+  namespace: foolishness
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      foolishness.service: back-api-go
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        foolishness.service: back-api-go
+    spec:
+      containers:
+      - image: docker-registry.local/foolishness/back-api-go:latest
+        imagePullPolicy: ""
+        name: back-api-go
+        ports:
+        - containerPort: 80
+        resources: {}
+      restartPolicy: Always
+      serviceAccountName: ""      
+status: {}

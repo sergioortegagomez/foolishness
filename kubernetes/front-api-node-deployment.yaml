@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    foolishness.service: front-api-node
+  name: front-api-node
+  namespace: foolishness
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      foolishness.service: front-api-node
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        foolishness.service: front-api-node
+    spec:
+      containers:
+      - image: docker-registry.local/foolishness/front-api-node:latest
+        imagePullPolicy: ""
+        name: front-api-node
+        ports:
+        - containerPort: 3000
+        resources: {}
+      restartPolicy: Always
+      serviceAccountName: ""
+      volumes: null
+status: {}
