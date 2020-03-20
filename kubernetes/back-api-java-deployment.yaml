@@ -20,6 +20,8 @@ spec:
       - image: docker-registry.local/foolishness/back-api-java:latest
         imagePullPolicy: ""
         name: back-api-java
+        ports:
+        - containerPort: 80
         resources: {}
       restartPolicy: Always
       serviceAccountName: ""  
