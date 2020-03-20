@@ -60,13 +60,16 @@ function execKubernetes() {
     cd kubernetes
 
     case $2 in
-        apply|delete)
+        apply)
             kubectl $2 -f namespace.yaml
             kubectl $2 -f mongodb-service.yaml
             for app in back-api-go back-api-java back-api-php front-api-node web; do
                 kubectl $2 -f $app-service.yaml
                 kubectl $2 -f $app-deployment.yaml
             done
+        ;;
+        delete)
+            kubectl $2 -f namespace.yaml
         ;;
         *)
             echo -e ""
