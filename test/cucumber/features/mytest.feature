@@ -1,7 +1,11 @@
 Feature: foolishness
 
 	Scenario: foolishness main web
-		Given I navigate to "http://web"        
+		Given I navigate to "http://web"
+    Then element having id "yesCount" should have text as "0"
+    Then element having id "noCount" should have text as "0"
+    Then element having id "maybeCount" should have text as "0"
+    Then element having id "total" should have text as "0"
         
   Scenario: foolishness vote Yes
 		Given I navigate to "http://web"
@@ -23,5 +27,8 @@ Feature: foolishness
 
   Scenario: foolishness remove votes
 		Given I navigate to "http://web"
-    And I click on element having id "buttonRemove"    
+    And I click on element having id "buttonRemove"
+    Then element having id "yesCount" should have text as "0"
+    Then element having id "noCount" should have text as "0"
+    Then element having id "maybeCount" should have text as "0"
     Then element having id "total" should have text as "0"
