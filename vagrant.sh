@@ -11,7 +11,7 @@ function dockerInstall() {
     add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
     apt-get update
     apt-get upgrade
-    apt-get -y install apt-transport-https ca-certificates vim curl gnupg2 software-properties-common docker-ce docker-ce-cli containerd.io docker-compose
+    apt-get -y install apt-transport-https ca-certificates vim curl gnupg2 software-properties-common docker-ce docker-ce-cli containerd.io docker-compose sshpass
     usermod -aG docker vagrant
     cat > /etc/docker/daemon.json <<EOF
 {
