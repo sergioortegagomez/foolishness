@@ -1,2 +1,4 @@
 test/gatling/results
+test/cucumber/features/screenshots
+test/cucumber/report.html
 .vagrant
