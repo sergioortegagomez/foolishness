@@ -56,7 +56,7 @@ function execDocker() {
 }
 
 function execKubernetes() {
-    [ ! -f "/home/vagrant/.kube/config" ] && sshpass -p "vagrant" scp vagrant@192.168.50.10:/home/vagrant/.kube/config /home/vagrant/.kube/config
+    [ ! -f "/home/vagrant/.kube/config" ] && sshpass -p "vagrant" scp -o StrictHostKeyChecking=no vagrant@192.168.50.10:/home/vagrant/.kube/config /home/vagrant/.kube/config
     cd kubernetes
 
     case $2 in
