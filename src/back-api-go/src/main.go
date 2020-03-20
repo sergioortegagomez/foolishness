@@ -2,11 +2,10 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
-	"log"
 	"math/rand"
 	"net/http"
-	"os"
 	"time"
 
 	"github.com/gorilla/mux"
@@ -34,7 +33,7 @@ func responseJSON(w http.ResponseWriter, data interface{}) {
 }
 
 func voteCreate(w http.ResponseWriter, r *http.Request) {
-	log.Println("/votecreate")
+	fmt.Println("/votecreate")
 	b, err := ioutil.ReadAll(r.Body)
 	defer r.Body.Close()
 	if err != nil {
@@ -48,18 +47,49 @@ func voteCreate(w http.ResponseWriter, r *http.Request) {
 
 	if err := votes.Insert(vote); err != nil {
 		responseError(w, err.Error(), http.StatusInternalServerError)
-		log.Println("Vote not created!!")
+		fmt.Println("Vote not created!!")
 		return
 	}
 
-	log.Println("Vote", vote.Vote, "has been created")
+	fmt.Println("Vote", vote.Vote, "has been created")
 
 	responseJSON(w, vote)
 }
 
 func status(w http.ResponseWriter, r *http.Request) {
-	log.Println("/")
+	fmt.Println("/")
 	responseJSON(w, `{"message":"hello world from go"}`)
+}
+
+func connectToMongo() bool {
+	ret := false
+	fmt.Println("Connecting to mongodb:27017")
+
+	// tried doing this - doesn't work as intended
+	defer func() {
+		if r := recover(); r != nil {
+			fmt.Println("Detected panic")
+			var ok bool
+			err, ok := r.(error)
+			if !ok {
+				fmt.Printf("pkg:  %v,  error: %s", r, err)
+			}
+		}
+	}()
+
+	maxWait := time.Duration(5 * time.Second)
+	session, sessionErr := mgo.DialWithTimeout("mongodb:27017", maxWait)
+	if sessionErr == nil {
+		session.SetMode(mgo.Monotonic, true)
+		votes = session.DB("foolishness").C("votes")
+		if votes != nil {
+			fmt.Println("Got a votes collection object")
+			ret = true
+		}
+	} else {
+		fmt.Println("Unable to connect to mongodb:27017 instance!")
+	}
+	return ret
 }
 
 func main() {
@@ -67,15 +97,11 @@ func main() {
 	rand.Seed(time.Now().UnixNano())
 
 	// Mongo connection
-	session, err := mgo.Dial("mongodb:27017")
-	if err != nil {
-		log.Fatalln(err)
-		log.Fatalln("mongodb not connected!!")
-		os.Exit(1)
+	if connectToMongo() {
+		fmt.Println("Connected")
+	} else {
+		fmt.Println("Not Connected")
 	}
-	defer session.Close()
-	session.SetMode(mgo.Monotonic, true)
-	votes = session.DB("foolishness").C("votes")
 
 	// Set up routes
 	r := mux.NewRouter()
@@ -83,5 +109,5 @@ func main() {
 	r.HandleFunc("/", status).Methods("GET")
 
 	http.ListenAndServe(":80", cors.AllowAll().Handler(r))
-	log.Println("Back-Api-Go listening on port 80!")
+	fmt.Println("Back-Api-Go listening on port 80!")
 }
