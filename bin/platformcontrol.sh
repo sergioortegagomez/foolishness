@@ -1,5 +1,7 @@
 #!/bin/bash 
 
+cd "$(dirname $0)/.."
+
 function usage() {
     echo -e "usage: bin/platformcontrol.sh [up|destroy|ssh|status|halt]"
 }

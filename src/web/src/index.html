@@ -12,25 +12,27 @@
     </head>
     <body>
         <div class="container">
+            <div class="row"><hr></div>
             <div class="row"><h1>Poll!</h1></div>
             <div class="row"><hr></div>
             <div class="row ">
-                <fieldset>
+                <div class="alert alert-success col-md-12 text-center" role="alert">
                     <h4>Do you like this a lot?</h4>                    
                     <button type="button" class="btn btn-primary" id="buttonYes">Yes</button>
                     <button type="button" class="btn btn-primary" id="buttonNo">No</button>
                     <button type="button" class="btn btn-primary" id="buttonMaybe">May be</button>
-                </fieldset>
+                </div>
             </div>
             <div class="row"><hr></div>
+            <div class="row">Result table:</div>
             <div class="row">
                 <table class="table table-striped" id="tableVotes">
                     <thead>
-                      <tr>
+                    <tr>
                         <th scope="col">#</th>
                         <th scope="col">Vote</th>
                         <th scope="col">Created At</th>
-                      </tr>
+                    </tr>
                     </thead>
                     <tbody>
 
@@ -48,7 +50,7 @@
                 <div class="col-sm">
                     <button type="button" class="btn btn-danger" id="buttonRemove">Clear</button>
                 </div>
-            </div>            
+            </div>
         </div>
     </body>
 </html>

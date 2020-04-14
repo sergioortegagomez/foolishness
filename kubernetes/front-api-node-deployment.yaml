@@ -21,7 +21,7 @@ spec:
         imagePullPolicy: ""
         name: front-api-node
         ports:
-        - containerPort: 3000
+        - containerPort: 80
         resources: {}
       restartPolicy: Always
       serviceAccountName: ""

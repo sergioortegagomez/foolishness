@@ -50,11 +50,18 @@ function komposeInstall() {
     mv kompose /usr/local/bin/kompose
 }
 
+# Update Vagrant Home
+# @description Go to dev folder
+function updateHome() {
+    echo "cd /vagrant" >> /home/vagrant/.bashrc
+}
+
 # main
 function main() {
     dockerInstall
     kubeInstall
     komposeInstall
+    updateHome
 }
 
 main

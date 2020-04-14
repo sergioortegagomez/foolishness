@@ -41,10 +41,10 @@ services:
     ports:
       - 27017:27017
 
-  desktop:
-    image: sergioortegagomez/docker-ubuntu-cucumber
-    restart: always
-    ports:
-      - 3389:3389
-    environment:
-      - DESKTOP=true
+#  desktop:
+#    image: sergioortegagomez/docker-ubuntu-cucumber
+#    restart: always
+#    ports:
+#      - 3389:3389
+#    environment:
+#      - DESKTOP=true
