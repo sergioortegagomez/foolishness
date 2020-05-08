@@ -20,14 +20,14 @@ class BasicSimulation extends Simulation {
     .exec(http("/vote/create").post("/vote/create").body(StringBody("vote=Maybe")))
   setUp(
     scn.inject(
-      nothingFor(4 seconds),
+      nothingFor(1 seconds),
       atOnceUsers(10),
       rampUsers(10) during (5 seconds),
-      constantUsersPerSec(20) during (15 seconds),
-      constantUsersPerSec(20) during (15 seconds) randomized,
-      rampUsersPerSec(10) to 20 during (2 minutes),
-      rampUsersPerSec(10) to 20 during (2 minutes) randomized,
-      heavisideUsers(5000) during (60 seconds)
+      constantUsersPerSec(20) during (5 seconds),
+      constantUsersPerSec(20) during (5 seconds) randomized,
+      rampUsersPerSec(10) to 20 during (5 seconds),
+      rampUsersPerSec(10) to 20 during (5 seconds) randomized,
+      heavisideUsers(50) during (5 seconds)
     )
   ).protocols(httpProtocol)
 
