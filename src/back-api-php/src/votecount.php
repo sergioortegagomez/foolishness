@@ -1,6 +1,5 @@
 <?php
 header("Content-Type: application/json; charset=UTF-8");
-error_log("/votelist.php");
 
 try {
     $mongodb = new Mongo("mongodb://mongodb:27017");
