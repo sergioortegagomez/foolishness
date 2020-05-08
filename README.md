@@ -24,12 +24,6 @@ And enter to your dev virtual machine
 $ bin/platformcontrol.sh ssh
 ```
 
-Move to workspace by default
-
-```console
-$ cd /vagrant
-```
-
 ### Build your project
 
 ```console
