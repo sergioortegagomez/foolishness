@@ -1,14 +1,15 @@
-FROM golang
+FROM golang:alpine AS builder
 
-WORKDIR /opt/go
+RUN apk update && apk add --no-cache git
 
-COPY src /opt/go
+WORKDIR $GOPATH/src/app/
+COPY src .
 
-ENV GOPATH=/opt/go
-RUN go get "gopkg.in/mgo.v2" "github.com/gorilla/mux" "github.com/rs/cors"
+ENV GO111MODULE=off
+RUN go get -d -v
+RUN go build -o /go/bin/app 
 
+FROM alpine
+COPY --from=builder /go/bin/app /app
 EXPOSE 80
-
-RUN go build -o app
-
-CMD ["./app"]
+ENTRYPOINT [ "/app" ]

@@ -13,24 +13,18 @@
     <body>
         <div class="container">
             <div class="row"><hr></div>
-            <div class="row"><h1>Survey!</h1></div>
+            <div class="row"><h1 id="headerText">Book list!</h1></div>
             <div class="row"><hr></div>
-            <div class="row ">
-                <div class="alert alert-success col-md-12 text-center" role="alert">
-                    <h4>Do you like this a lot?</h4>                    
-                    <button type="button" class="btn btn-primary" id="buttonYes">Yes</button>
-                    <button type="button" class="btn btn-primary" id="buttonNo">No</button>
-                    <button type="button" class="btn btn-primary" id="buttonMaybe">May be</button>
-                </div>
-            </div>
             <div class="row"><hr></div>
-            <div class="row">Result table:</div>
             <div class="row">
-                <table class="table table-striped" id="tableVotes">
+                <table class="table table-striped" id="BookTable">
                     <thead>
                     <tr>
                         <th scope="col">#</th>
-                        <th scope="col">Vote</th>
+                        <th scope="col">Title</th>
+                        <th scope="col">ISBN</th>
+                        <th scope="col">Pages</th>
+                        <th scope="col">Author</th>
                         <th scope="col">Created At</th>
                     </tr>
                     </thead>
@@ -38,16 +32,34 @@
 
                     </tbody>
                 </table>
+                <form id="addForm">
+                    <div class="form-group">
+                        <label for="titleBook">Title</label>
+                        <input type="text" class="form-control" id="titleBook" placeholder="Enter title">
+                    </div>
+                    <div class="form-group">
+                        <label for="isbnBook">ISBN</label>
+                        <input type="text" class="form-control" id="isbnBook" placeholder="Enter ISBN">
+                    </div>
+                    <div class="form-group">
+                        <label for="pagesBook">Pages</label>
+                        <input type="integer" class="form-control" id="pagesBook">
+                    </div>
+                    <div class="form-group">
+                        <label for="authorBook">Author</label>
+                        <input type="text" class="form-control" id="authorBook" placeholder="Enter Author">
+                    </div>
+                    <button type="button" class="btn btn-danger" id="cancelButton">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="submitButton">Submit</button>                    
+                </form>
             </div>
             <div class="row"><hr></div>
-            <div class="row">
-                <div class="col-sm-3">Total votes: <span id="total">0</span></div>
-                <div class="col-sm-3">Yes count: <span id="yesCount">0</span></div>
-                <div class="col-sm-3">No count: <span id="noCount">0</span></div>
-                <div class="col-sm-3">May be count: <span id="maybeCount">0</span></div>
+            <div class="row" id="statsRow">
+                <div class="col-sm-3">Total Books: <span id="total">0</span></div>
             </div>
-            <div class="row">
+            <div class="row" id="buttonsRow">
                 <div class="col-sm">
+                    <button type="button" class="btn btn-primary" id="addBookButton">Add Book</button>
                     <button type="button" class="btn btn-danger" id="buttonRemove">Clear</button>
                 </div>
             </div>

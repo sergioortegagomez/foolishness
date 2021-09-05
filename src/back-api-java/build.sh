@@ -2,4 +2,4 @@
 
 cd "$(dirname $0)"
 
-docker build --tag docker-registry.local/foolishness/back-api-java:latest .
+docker build --tag localhost:5000/foolishness/back-api-java:latest .

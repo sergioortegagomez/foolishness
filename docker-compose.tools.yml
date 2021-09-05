@@ -1,0 +1,13 @@
+version: '2'
+services:
+  
+  registry:
+    restart: always
+    image: registry:2
+    ports:
+      - 5000:5000
+    networks:
+      - app
+
+networks:
+  app:

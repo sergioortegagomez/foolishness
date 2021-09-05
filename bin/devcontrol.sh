@@ -2,44 +2,66 @@
 
 cd "$(dirname $0)/.."
 
+# Reset
+NoColor='\033[0m'       # Text Reset
+
+# Regular Colors
+Black='\033[0;30m'        # Black
+Red='\033[0;31m'          # Red
+Green='\033[0;32m'        # Green
+Yellow='\033[0;33m'       # Yellow
+Blue='\033[0;34m'         # Blue
+Purple='\033[0;35m'       # Purple
+Cyan='\033[0;36m'         # Cyan
+White='\033[0;37m'        # White
+
 function usage() {
     echo -e ""
-    echo -e "Usage: "
-    echo -e "  bin/devcontrol.sh [command]"
+    echo -e "${Green}Usage: ${NoColor}"
+    echo -e "  bin/devcontrol.sh ${Yellow}[command]${NoColor}"
     echo -e ""
-    echo -e "Available Commands:"
-    echo -e "  - start       dev env up"
-    echo -e "  - destroy     dev env down"
-    echo -e "  - build       build all docker images"
-    echo -e "  - test        launch your cucumber/gatling test"
-    echo -e "  - status      show status info"
-    echo -e "  - docker push push your docker images"
-    echo -e "  - kubernetes  launch to kubernetes cluster"
+    echo -e "${Green}Available Commands:${NoColor}"
+    echo -e "  - ${Cyan}up${NoColor}                 docker-compose env up"
+    echo -e "  - ${Cyan}down${NoColor}               docker-compose env down"
+    # echo -e "  - ${Cyan}build${NoColor}            build all docker images"
+    echo -e "  - ${Cyan}test${NoColor}               launch your cucumber/gatling test"
+    echo -e "  - ${Cyan}status${NoColor}             show status info"
+    # echo -e "  - ${Cyan}docker push${NoColor}      push your docker images"
+    echo -e "  - ${Cyan}kubernetes up${NoColor}      kubernetes env up"
+    echo -e "  - ${Cyan}kubernetes down${NoColor}    kubernetes env down"
     echo -e ""
 }
 
 function build() {
-    for d in back-api-go back-api-php back-api-java front-api-node web; do
-        src/$d/build.sh
+    for d in back-api-go back-api-node back-api-java web; do
+        echo -e ""
+        echo -e "${Green}[ ${Yellow}${d}${Green} ]-------------------------------------------------------${NoColor}"
+        src/${d}/build.sh
     done
 }
 
-function start() {
-    docker-compose up -d --remove-orphans
+function up() {
+    docker-compose -f docker-compose.databases.yml -f docker-compose.tools.yml up -d --remove-orphans
+    build
+    docker-compose up -d
+    echo -e "\n${Green}-------------------------------------------------------------${NoColor}"
+    status
 }
 
-function destroy() {
-    docker-compose -f docker-compose.test.yml rm -f gatling-runner-main cucumber-runner-main
-    docker-compose down
+function down() {
+    docker-compose -f docker-compose.databases.yml -f docker-compose.tools.yml -f docker-compose.yml down
 }
 
 function status() {
+    echo -e "\n${Green}[ ${Yellow}App Services ${Green}]${NoColor}"
     docker-compose ps
-    docker-compose -f docker-compose.test.yml ps    
+    echo -e "\n${Green}[ ${Yellow}Databases Services ${Green}]${NoColor}"
+    docker-compose -f docker-compose.databases.yml ps
+    echo -e "\n${Green}[ ${Yellow}Tools Services ${Green}]${NoColor}"
+    docker-compose -f docker-compose.tools.yml ps  
 }
 
 function test() {
-    docker system prune -f > /dev/null
     docker-compose -f docker-compose.test.yml up $2    
 }
 
@@ -50,9 +72,16 @@ function logs() {
 function execDocker() {
     case $2 in
         push)
-            for image in web front-api-node back-api-php back-api-go back-api-java; do
-                docker push docker-registry.local/foolishness/$image:latest
+            docker-compose -f docker-compose.tools.yml up -d registry --remove-orphans
+            for image in web front-api-node back-api-node back-api-go back-api-java; do
+                docker push localhost:5000/foolishness/$image:latest
             done
+        ;;
+        *)
+            echo -e ""
+            echo -e "Usage: "
+            echo -e "  bin/devcontrol.sh docker [push]"
+            echo -e ""
         ;;
     esac
 }
@@ -62,16 +91,16 @@ function execKubernetes() {
     cd kubernetes
 
     case $2 in
-        apply)
-            kubectl $2 -f namespace.yaml
-            kubectl $2 -f mongodb-service.yaml
-            for app in back-api-go back-api-java back-api-php front-api-node web; do
-                kubectl $2 -f $app-service.yaml
-                kubectl $2 -f $app-deployment.yaml
+        up)
+            kubectl apply -f namespace.yaml
+            kubectl apply -f mongodb-service.yaml
+            for app in back-api-go back-api-java back-api-node front-api-node web; do
+                kubectl apply -f $app-service.yaml
+                kubectl apply -f $app-deployment.yaml
             done
         ;;
-        delete)
-            kubectl $2 -f namespace.yaml
+        down)
+            kubectl delete -f namespace.yaml
         ;;
         *)
             echo -e ""
@@ -84,8 +113,8 @@ function execKubernetes() {
 }
 
 case $1 in
-    start) start ;;
-    destroy) destroy ;;
+    up) up ;;
+    down) down ;;
     build) build ;;
     test) test $@ ;;
     status) status ;;

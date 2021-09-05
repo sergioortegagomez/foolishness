@@ -1,14 +1,29 @@
 version: '2'
 services:
     
-  gatling-runner-main:
+  gatling-runner:
     image: denvazh/gatling:3.2.1
     command: "-s simulations.BasicSimulation"
     volumes:
       - ./test/gatling/simulations:/opt/gatling/user-files/simulations
       - ./test/gatling/results:/opt/gatling/results
-
-  cucumber-runner-main:
+    networks:
+      - app
+      
+  cucumber-runner:
     image: sergioortegagomez/docker-ubuntu-cucumber
     volumes:
       - ./test/cucumber:/opt/cucumber
+    networks:
+      - app
+
+  karate-runner:
+    image: qbarlas/karate-dsl
+    volumes:
+      - ./test/karate/features:/src/features
+      - ./test/karate/results:/src/target
+    networks:
+      - app
+
+networks:
+  app:

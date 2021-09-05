@@ -1,11 +1,11 @@
-FROM maven
+FROM maven AS builder
 
-COPY . /opt/app
+COPY . .
+RUN mvn package
 
-WORKDIR /opt/app
-
-RUN mvn clean install
+FROM openjdk:11
+COPY --from=builder target/foolishness-0.0.1-SNAPSHOT.jar /foolishness-0.0.1-SNAPSHOT.jar
 
 EXPOSE 8080
 
-CMD ["java", "-jar", "target/foolishness-0.0.1-SNAPSHOT.jar"]
+ENTRYPOINT ["java", "-jar", "/foolishness-0.0.1-SNAPSHOT.jar"]

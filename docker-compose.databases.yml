@@ -1,0 +1,13 @@
+version: '2'
+services:
+  
+  mongodb:
+    image: mongo:latest
+    restart: always
+    ports:
+      - 27017:27017
+    networks:
+      - app
+
+networks:
+  app:

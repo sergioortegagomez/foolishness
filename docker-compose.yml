@@ -2,49 +2,40 @@ version: '2'
 services:
 
   web:
-    image: docker-registry.local/foolishness/web:latest
+    image: localhost:5000/foolishness/web:latest
     restart: always
-    ports: 
+    pull_policy: never
+    ports:
       - 80:80
     depends_on:
-      - front-api-node
-
-  front-api-node:
-    image: docker-registry.local/foolishness/front-api-node:latest
-    restart: always
-    depends_on:
-      - back-api-go
-      - back-api-php
+      #- back-api-go
+      - back-api-node
       - back-api-java
+    networks:
+      - app  
 
-  back-api-go:
-    image: docker-registry.local/foolishness/back-api-go:latest
-    restart: always
-    depends_on:
-      - mongodb
+  #back-api-go:
+  #  image: localhost:5000/foolishness/back-api-go:latest
+  #  restart: always
+  #  pull_policy: never
+  #  networks:
+  #    - app
     
-  back-api-php:
-    image: docker-registry.local/foolishness/back-api-php:latest
+  back-api-node:
+    image: localhost:5000/foolishness/back-api-node:latest
     restart: always
-    depends_on:
-      - mongodb
+    pull_policy: never
+    ports:
+      - 10001:80
+    networks:
+      - app
     
   back-api-java:
-    image: docker-registry.local/foolishness/back-api-java:latest
+    image: localhost:5000/foolishness/back-api-java:latest
     restart: always
-    depends_on:
-      - mongodb
+    pull_policy: never
+    networks:
+      - app
     
-  mongodb:
-    image: mongo:latest
-    restart: always
-    ports:
-      - 27017:27017
-
-#  desktop:
-#    image: sergioortegagomez/docker-ubuntu-cucumber
-#    restart: always
-#    ports:
-#      - 3389:3389
-#    environment:
-#      - DESKTOP=true
+networks:
+  app:

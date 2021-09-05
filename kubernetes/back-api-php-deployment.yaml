@@ -17,7 +17,7 @@ spec:
         foolishness.service: back-api-php
     spec:
       containers:
-      - image: docker-registry.local/foolishness/back-api-php:latest
+      - image: localhost:5000/foolishness/back-api-php:latest
         imagePullPolicy: ""
         name: back-api-php
         resources: {}

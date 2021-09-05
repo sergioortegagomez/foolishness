@@ -17,7 +17,7 @@ spec:
         foolishness.service: back-api-go
     spec:
       containers:
-      - image: docker-registry.local/foolishness/back-api-go:latest
+      - image: localhost:5000/foolishness/back-api-go:latest
         imagePullPolicy: ""
         name: back-api-go
         ports:

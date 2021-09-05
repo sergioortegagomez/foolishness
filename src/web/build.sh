@@ -2,4 +2,4 @@
 
 cd "$(dirname $0)"
 
-docker build --tag docker-registry.local/foolishness/web:latest .
+docker build --tag localhost:5000/foolishness/web:latest .

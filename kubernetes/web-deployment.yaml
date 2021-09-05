@@ -17,7 +17,7 @@ spec:
         foolishness.service: web
     spec:
       containers:
-      - image: docker-registry.local/foolishness/web:latest
+      - image: localhost:5000/foolishness/web:latest
         imagePullPolicy: ""
         name: web
         ports:

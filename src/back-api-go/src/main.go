@@ -3,22 +3,27 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"math/rand"
 	"net/http"
 	"time"
 
 	"github.com/gorilla/mux"
 	"github.com/rs/cors"
-	"gopkg.in/mgo.v2"
+	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
+	"go.mongodb.org/mongo-driver/mongo/readpref"
 )
 
-type voteStruct struct {
-	Vote      string
-	CreatedAt time.Time
+type contactStruct struct {
+	name      string
+	birthdate string
+	genre     string
+	createdAt time.Time
 }
 
-var votes *mgo.Collection
+var client mongo.Client
+var contacts *mgo.Collection
 
 func responseError(w http.ResponseWriter, message string, code int) {
 	w.Header().Set("Content-Type", "application/json")
@@ -32,28 +37,25 @@ func responseJSON(w http.ResponseWriter, data interface{}) {
 	json.NewEncoder(w).Encode(data)
 }
 
-func voteCreate(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("/votecreate")
-	b, err := ioutil.ReadAll(r.Body)
-	defer r.Body.Close()
+func contactCreate(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("/contact")
+	if err := r.ParseForm(); err != nil {
+		fmt.Fprintf(w, "ParseForm() err: %v", err)
+		return
+	}
+
+	contactsCollection := client.Database("foolishness").Collection("contacts")
+
+	contact := contactStruct{ r.FormValue("name"), r.FormValue("birthdate"), r.FormValue("genre"), time.Now().UTC()}
+
+	insertResult, err := collection.InsertOne(context.TODO(), contact)
 	if err != nil {
-		http.Error(w, err.Error(), 500)
-		return
+		log.Fatal(err)
 	}
 
-	vote := &voteStruct{}
-	vote.Vote = string(b[5:])
-	vote.CreatedAt = time.Now().UTC()
+	fmt.Println("Inserted a single document: ", insertResult.InsertedID, contact.name, contact.birthdate, contact.genre)
 
-	if err := votes.Insert(vote); err != nil {
-		responseError(w, err.Error(), http.StatusInternalServerError)
-		fmt.Println("Vote not created!!")
-		return
-	}
-
-	fmt.Println("Vote", vote.Vote, "has been created")
-
-	responseJSON(w, vote)
+	responseJSON(w, `{"status":"ok"}`)
 }
 
 func status(w http.ResponseWriter, r *http.Request) {
@@ -62,34 +64,25 @@ func status(w http.ResponseWriter, r *http.Request) {
 }
 
 func connectToMongo() bool {
-	ret := false
-	fmt.Println("Connecting to mongodb:27017")
+	// Set client options
+	clientOptions := options.Client().ApplyURI("mongodb://mongodb:27017")
 
-	// tried doing this - doesn't work as intended
-	defer func() {
-		if r := recover(); r != nil {
-			fmt.Println("Detected panic")
-			var ok bool
-			err, ok := r.(error)
-			if !ok {
-				fmt.Printf("pkg:  %v,  error: %s", r, err)
-			}
-		}
-	}()
+	// Connect to MongoDB
+	client, err := mongo.Connect(context.TODO(), clientOptions)
 
-	maxWait := time.Duration(5 * time.Second)
-	session, sessionErr := mgo.DialWithTimeout("mongodb:27017", maxWait)
-	if sessionErr == nil {
-		session.SetMode(mgo.Monotonic, true)
-		votes = session.DB("foolishness").C("votes")
-		if votes != nil {
-			fmt.Println("Got a votes collection object")
-			ret = true
-		}
-	} else {
-		fmt.Println("Unable to connect to mongodb:27017 instance!")
+	if err != nil {
+		log.Fatal(err)
 	}
-	return ret
+
+	// Check the connection
+	err = client.Ping(context.TODO(), nil)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Println("Connected to MongoDB!")
+	return true
 }
 
 func main() {
@@ -97,15 +90,11 @@ func main() {
 	rand.Seed(time.Now().UnixNano())
 
 	// Mongo connection
-	if connectToMongo() {
-		fmt.Println("Connected")
-	} else {
-		fmt.Println("Not Connected")
-	}
+	connectToMongo()
 
 	// Set up routes
 	r := mux.NewRouter()
-	r.HandleFunc("/votecreate", voteCreate).Methods("POST")
+	r.HandleFunc("/contact", contactCreate).Methods("POST")
 	r.HandleFunc("/", status).Methods("GET")
 
 	http.ListenAndServe(":80", cors.AllowAll().Handler(r))

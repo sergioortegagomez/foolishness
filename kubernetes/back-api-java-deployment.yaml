@@ -17,7 +17,7 @@ spec:
         foolishness.service: back-api-java
     spec:
       containers:
-      - image: docker-registry.local/foolishness/back-api-java:latest
+      - image: localhost:5000/foolishness/back-api-java:latest
         imagePullPolicy: ""
         name: back-api-java
         ports:

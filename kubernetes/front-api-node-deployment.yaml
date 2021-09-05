@@ -17,7 +17,7 @@ spec:
         foolishness.service: front-api-node
     spec:
       containers:
-      - image: docker-registry.local/foolishness/front-api-node:latest
+      - image: localhost:5000/foolishness/front-api-node:latest
         imagePullPolicy: ""
         name: front-api-node
         ports:
